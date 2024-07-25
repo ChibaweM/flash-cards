@@ -6,8 +6,8 @@ function Signin() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg ">
-        <h2 className="text-center text-2xl font-bold text-olive">Sign In</h2>
-        <h6 className="text-center text-leather"> Welcome to FlashBuddy</h6>
+        <h2 className="text-center text-2xl font-bold text-olive">Welcome to FlashBuddy</h2>
+        <h6 className="text-center text-leather">Sign In</h6>
         <form className="mt-8 space-y-6">
           <div className="rounded-md shadow-sm -space-y-px">
             <div>

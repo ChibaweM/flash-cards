@@ -6,8 +6,8 @@ function Signup() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="w-full max-w-md p-8 space-y-6 bg-white">
-        <h2 className="text-center text-2xl font-bold text-olive">Sign Up</h2>
-        <h4 className="text-center text-olive"> Welcome to FlashBuddy</h4>
+        <h2 className="text-center text-2xl font-bold text-olive">Wlecome to FlashBuddy</h2>
+        <h4 className="text-center text-olive"> Sign Up</h4>
         <form onSubmit={""} className="mt-8 space-y-6">
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
@@ -26,7 +26,7 @@ function Signup() {
             </div>
             <div>
               <label htmlFor="password" className="sr-only">
-                Password
+                Passwords
               </label>
               <input
                 id="password"
@@ -40,7 +40,7 @@ function Signup() {
             </div>
             <div>
               <label htmlFor="confirmpassword" className="sr-only">
-                Password
+                confirmpassword
               </label>
               <input
                 id="confirmpassword"
