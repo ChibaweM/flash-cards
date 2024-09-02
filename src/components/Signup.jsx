@@ -1,6 +1,11 @@
 // src/components/SignUp.js
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "../api/axios";
+
+
+const Register_URL = '/users/auth/signup';
+
 
 function Signup() {
   const userRef = useRef();
@@ -11,11 +16,7 @@ function Signup() {
   const [validName, setValidName] = useState(false);
   const [nameFocus, setNameFocus] = useState(false);
 
-  const [email, setEmail] = useState("");
-  const [validEmail, setValidEmail] = useState(false);
-  const [emailFocus, setEmailFocus] = useState(false);
-
-  const [pwd, setPwd] = useState("");
+  const [password, setPwd] = useState("");
   const [validPwd, setValidPwd] = useState(false);
   const [pwdFocus, setPwdFocus] = useState(false);
 
@@ -27,8 +28,11 @@ function Signup() {
   const [errMsg, setErrMsg] = useState("");
   const [success, setSuccess] = useState(false);
 
+  useEffect(() => {
+    setErrMsg("");
+  }, [username, password, conPwd]);
 
- /*  //helpers to capture the data from the form
+  /*  //helpers to capture the data from the form
   useEffect(() => {
     userRef.current.focus();
   }, []);
@@ -44,51 +48,64 @@ function Signup() {
   useEffect(() => {
     setValidPwd(PWD_REGEX.test(pwd));
     setValidConPwd(pwd === conPwd);
-  }, [pwd, conPwd]);
+  }, [pwd, conPwd]);*/
 
-  useEffect(() => {
-    setErrMsg("");
-  }, [username, pwd, conPwd]); */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
+    try {
+      const resp = await axios.post(
+        '/users/auth/signup',
+        JSON.stringify({ username, password }),
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true
+        }
+      );
+    } catch (err) {
+      if (!err?.resp) {
+        setErrMsg("No server response");
+        console.log("No server response");
+      } else {
+        setErrMsg("Idk what error you got bro");
+        console.log("");
+      }
+    }
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-white">
       <div className="w-full max-w-md p-8 space-y-6 bg-white">
+        <p ref={errRef} className={errMsg ? "errmsg" : "offscreen"}>
+          {errMsg}
+        </p>
         <h2 className="text-center text-2xl font-bold text-olive">
-          welcome to studybuddy
+          Welcome to Studybuddy
         </h2>
-        <h4 className="text-center text-olive"> sign up</h4>
-        <form onSubmit={""} className="mt-8 space-y-6">
+        <h4 className="text-center text-olive"> Sign Up</h4>
+        <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <label htmlFor="username" className="sr-only">
                 username
               </label>
               <input
+                type="text"
                 id="username"
+                ref={userRef}
                 name="username"
-                autoComplete="current-password"
+                autoComplete="off"
+                onChange={(e) => setUsername(e.target.value)}
+                onFocus={() => setNameFocus(true)}
+                onBlur={() => setNameFocus(false)}
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-olive focus:border-olive focus:z-10 sm:text-sm"
-                placeholder="username"
+                placeholder="Username"
               />
             </div>
-            <div>
-              <label htmlFor="email-address" className="sr-only">
-                email address
-              </label>
-              <input
-                id="email-address"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-olive focus:border-olive focus:z-10 sm:text-sm"
-                placeholder="email address"
-              />
-            </div>
+
             <div>
               <label htmlFor="password" className="sr-only">
-                passwords
+                password
               </label>
               <input
                 id="password"
@@ -97,21 +114,27 @@ function Signup() {
                 autoComplete="current-password"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900  focus:outline-none focus:ring-olive focus:border-olive focus:z-10 sm:text-sm"
-                placeholder="password"
+                placeholder="Password"
+                onChange={(e) => setPwd(e.target.value)}
+                onFocus={() => setPwdFocus(true)}
+                onBlur={() => setPwdFocus(false)}
               />
             </div>
             <div>
-              <label htmlFor="confirmpassword" className="sr-only">
-                confirm password
+              <label htmlFor="conPwd" className="sr-only">
+                conPwd
               </label>
               <input
-                id="confirmpassword"
-                name="confirmpassword"
+                id="conPwd"
+                name="conPwd"
                 type="password"
                 autoComplete="current-password"
                 required
                 className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-olive focus:border-olive focus:z-10 sm:text-sm"
-                placeholder="confirm password"
+                placeholder="Confirm password"
+                onChange={(e) => setConPwd(e.target.value)}
+                onFocus={() => setConPwdFocus(true)}
+                onBlur={() => setConPwd(false)}
               />
             </div>
           </div>
