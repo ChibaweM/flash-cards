@@ -55,7 +55,7 @@ function Signup() {
 
     try {
       const resp = await axios.post(
-        '/users/auth/signup',
+        Register_URL,
         JSON.stringify({ username, password }),
         {
           headers: { "Content-Type": "application/json" },
