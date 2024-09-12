@@ -26,8 +26,10 @@ function Signin() {
         }
       );
 
-      navigate("/flashcards")
-      console.log(resp.data)
+      if(resp.status==200){
+        navigate("/flashcards");
+      }
+      
     }catch (err){
       console.log(err.resp)
     }
