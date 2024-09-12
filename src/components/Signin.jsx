@@ -2,12 +2,15 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 
 const LoginURL = '/users/auth/signin';
 
 
 function Signin() {
+
+  const navigate = useNavigate();
   const [username, setUser] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,6 +25,9 @@ function Signin() {
           withCredentails: true
         }
       );
+
+      navigate("/flashcards")
+      console.log(resp.data)
     }catch (err){
       console.log(err.resp)
     }
