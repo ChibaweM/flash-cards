@@ -2,6 +2,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../api/axios";
+import { useNavigate } from "react-router-dom";
 
 
 const Register_URL = '/users/auth/signup';
@@ -10,6 +11,8 @@ const Register_URL = '/users/auth/signup';
 function Signup() {
   const userRef = useRef();
   const errRef = useRef();
+
+  const navigate = useNavigate();
 
   //to capture the details from the form
   const [username, setUsername] = useState("");
@@ -62,6 +65,9 @@ function Signup() {
           withCredentials: true
         }
       );
+      if(resp.status==200){
+        navigate("/signin");
+      }
     } catch (err) {
       if (!err?.resp) {
         setErrMsg("No server response");
