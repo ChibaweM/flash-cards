@@ -1,15 +1,14 @@
-// src/components/SignIn.js
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "../api/axios";
 import { useNavigate } from "react-router-dom";
-
+import useAuth from "../hooks/useAuth";
 
 const LoginURL = '/users/auth/signin';
 
-
 function Signin() {
 
+  const {setAuth} = useAuth();  
   const navigate = useNavigate();
   const [username, setUser] = useState("");
   const [password, setPassword] = useState("");
@@ -26,12 +25,23 @@ function Signin() {
         }
       );
 
+      console.log(JSON.stringify(resp?.data));
+      const userId = resp?.data?.id;
+
+      console.log(userId);
+      setAuth({userId});
       if(resp.status==200){
         navigate("/flashcards");
       }
+      setUser('');
+      setPassword('');
       
     }catch (err){
-      console.log(err.resp)
+        if (!err?.resp) {
+            setErrMsg("No server response");
+          } else if(err.resp?.status === 400){
+            setErrMsg("Username of Password is incorrect");
+          }
     }
   };
   
